@@ -4,8 +4,11 @@ import { useEffect, useState } from "react";
 import Icecream from "./Icecream";
 
 function App() {
-  const [icecream, setIcecream] = useState([]);
+  const [data, setData] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [activeBtn, setActiveBtn] = useState(0);
+  // const [filter, setFilter] = useState(null);
 
   useEffect(() => {
     setIsLoading(true);
@@ -13,8 +16,10 @@ function App() {
       .get("https://react-corso-api.netlify.app/.netlify/functions/gelateria")
       .then((response) => {
         if (response.data.success) {
-          setIcecream(response.data.data.default);
+          setData(response.data.data.default);
+          setFilteredData(response.data.data.default);
           setIsLoading(false);
+          setActiveBtn(0);
         }
       })
       .catch((error) => {
@@ -22,12 +27,21 @@ function App() {
       });
   }, []);
 
-  const filterData = (_filter) => {
-    console.log("filter => ", _filter);
+  const filterData = (_filter, _btn) => {
+    // console.log("filter => ", _filter);
+    let newData = [];
+    if (_filter) {
+      newData = data.filter((item) => item.categoria === _filter);
+      setActiveBtn(_btn);
+    } else {
+      newData = data;
+      setActiveBtn(0);
+    }
+    setFilteredData(newData);
   };
 
   return (
-    <div className="App min-vh-100 ms-bg-primary">
+    <div className="App min-vh-100 ms-bg-primary pb-5">
       <header className="container py-3 ">
         <h1 className="text-capitalize ms-font-arial ">Nice cream</h1>
       </header>
@@ -37,29 +51,45 @@ function App() {
           <nav className="nav-border w-100 d-flex align-items-center justify-content-between pt-3 pb-2 mb-4">
             <button
               type="button"
-              className="btn py-2 px-3 ms-font-arial ms-fs-xs text-uppercase ms-filter-btn rounded-0"
-              onClick={() => filterData(null)}
+              className={
+                activeBtn === 0
+                  ? "btn py-2 px-3 ms-font-arial ms-fs-xs text-uppercase ms-filter-btn rounded-0 ms-btn-active"
+                  : "btn py-2 px-3 ms-font-arial ms-fs-xs text-uppercase ms-filter-btn rounded-0"
+              }
+              onClick={() => filterData(null, 0)}
             >
               All
             </button>
             <button
               type="button"
-              className="btn py-2 px-3 ms-font-arial ms-fs-xs text-uppercase ms-filter-btn rounded-0"
-              onClick={() => filterData("cono")}
+              className={
+                activeBtn === 1
+                  ? "btn py-2 px-3 ms-font-arial ms-fs-xs text-uppercase ms-filter-btn rounded-0 ms-btn-active"
+                  : "btn py-2 px-3 ms-font-arial ms-fs-xs text-uppercase ms-filter-btn rounded-0"
+              }
+              onClick={() => filterData("cono", 1)}
             >
               Cono
             </button>
             <button
               type="button"
-              className="btn py-2 px-3 ms-font-arial ms-fs-xs text-uppercase ms-filter-btn rounded-0"
-              onClick={() => filterData("coppetta")}
+              className={
+                activeBtn === 2
+                  ? "btn py-2 px-3 ms-font-arial ms-fs-xs text-uppercase ms-filter-btn rounded-0 ms-btn-active"
+                  : "btn py-2 px-3 ms-font-arial ms-fs-xs text-uppercase ms-filter-btn rounded-0"
+              }
+              onClick={() => filterData("coppetta", 2)}
             >
               Coppetta
             </button>
             <button
               type="button"
-              className="btn py-2 px-3 ms-font-arial ms-fs-xs text-uppercase ms-filter-btn rounded-0"
-              onClick={() => filterData("stick")}
+              className={
+                activeBtn === 3
+                  ? "btn py-2 px-3 ms-font-arial ms-fs-xs text-uppercase ms-filter-btn rounded-0 ms-btn-active"
+                  : "btn py-2 px-3 ms-font-arial ms-fs-xs text-uppercase ms-filter-btn rounded-0"
+              }
+              onClick={() => filterData("stick", 3)}
             >
               Stick
             </button>
@@ -68,7 +98,7 @@ function App() {
         <div className="container">
           <div className="row g-3">
             {!isLoading &&
-              icecream.map((ice) => {
+              filteredData.map((ice) => {
                 return (
                   <Icecream
                     key={ice.id}
