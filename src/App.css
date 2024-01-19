@@ -1,5 +1,53 @@
+:root {
+  --ms-primary: rgb(188, 236, 240);
+  --ms-secondary: rgb(227, 250, 252);
+  --ms-tertiary: rgb(39, 120, 128);
+  --ms-active: rgb(121, 227, 235);
+}
+
 .App {
-  background-color: rgb(142, 246, 253);
   font-family: "Montserrat Alternates", sans-serif;
   font-weight: 400;
+}
+
+.ms-bg-primary {
+  background-color: var(--ms-primary);
+}
+
+.ms-bg-secondary {
+  background-color: var(--ms-secondary);
+}
+
+.ms-bg-tertiary {
+  background-color: var(--ms-tertiary);
+}
+
+.ms-bg-active {
+  background-color: var(--ms-active);
+}
+
+.ms-fs-xs {
+  font-size: 0.75rem;
+}
+
+.nav-border {
+  border-bottom: 1px solid;
+  border-color: rgb(192, 192, 192);
+}
+
+.ms-font-arial {
+  font-family: Arial, Helvetica, sans-serif !important;
+}
+
+.ms-filter-btn {
+  border-bottom: 2px solid transparent !important;
+  transition: all ease-in-out 200ms;
+}
+
+.ms-filter-btn:hover {
+  border-bottom-color: var(--ms-tertiary) !important;
+}
+
+.ms-btn-active {
+  border-bottom-color: var(--ms-tertiary) !important;
 }

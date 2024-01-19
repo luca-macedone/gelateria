@@ -1,0 +1,14 @@
+.img {
+  width: 200px;
+  aspect-ratio: 3/2;
+  object-fit: cover;
+}
+
+.card-body {
+  transition: all ease-in-out 200ms;
+}
+
+.card-body:hover {
+  scale: 1.02;
+  background-color: var(--ms-active);
+}
